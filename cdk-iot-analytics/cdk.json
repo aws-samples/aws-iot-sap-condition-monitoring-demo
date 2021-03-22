@@ -1,0 +1,26 @@
+{
+  "app": "python3 app.py",
+  "context": {
+    "@aws-cdk/core:enableStackNameDuplicates": "true",
+    "aws-cdk:enableDiffNoFail": "true",
+    "@aws-cdk/core:stackRelativeExports": "true",
+    "@aws-cdk/aws-ecr-assets:dockerIgnoreSupport": true,
+    "thing_name": "<thing_name>",
+    "Type": "<type",
+    "Equipment": "<equipment>",
+    "FunctLoc": "<functloc>",
+    "temperature_min": "<temp_min>",
+    "temperature_max": "<temp_max>",
+    "sns_alert_email_topic": "<email_alert_topic>",
+    "alarm_emails": [
+      "<email_address1>"
+    ],
+    "odpEntitySetName" : "<SAP Odata entity set name>",
+    "odpServiceName": "<SAP Odata service name>",
+    "sapHostName": "<SAP hostname>",
+    "sapPort": "<SAP port number>",
+    "sapUsername": "<SAP user name>",
+    "sapPassword": "<SAP password>",
+    "RSA_bitlength": 2048
+  }
+}

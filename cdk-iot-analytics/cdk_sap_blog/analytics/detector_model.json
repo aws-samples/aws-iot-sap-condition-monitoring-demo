@@ -1,0 +1,242 @@
+{
+    "detectorModelDefinition": {
+        "states": [
+            {
+                "stateName": "OverTemp",
+                "onInput": {
+                    "events": [],
+                    "transitionEvents": [
+                        {
+                            "eventName": "overTempTooLong",
+                            "condition": "timeout(\"hiTempDur\")",
+                            "actions": [],
+                            "nextState": "OverTempAlarm"
+                        },
+                        {
+                            "eventName": "tempBelowMax",
+                            "condition": "convert(Decimal,$input.vivInput.temperature_degC_mean) < convert(Decimal,$input.vivInput.maxTemp_degC)",
+                            "actions": [],
+                            "nextState": "TempInRange"
+                        }
+                    ]
+                },
+                "onEnter": {
+                    "events": [
+                        {
+                            "eventName": "startTimer",
+                            "condition": "true",
+                            "actions": [
+                                {
+                                    "setTimer": {
+                                        "timerName": "hiTempDur",
+                                        "seconds": 300,
+                                        "durationExpression": null
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "onExit": {
+                    "events": [
+                        {
+                            "eventName": "deleteTimer",
+                            "condition": "true",
+                            "actions": [
+                                {
+                                    "clearTimer": {
+                                        "timerName": "hiTempDur"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "stateName": "UnderTemp",
+                "onInput": {
+                    "events": [],
+                    "transitionEvents": [
+                        {
+                            "eventName": "underTempTooLong",
+                            "condition": "timeout(\"loTempDur\")",
+                            "actions": [],
+                            "nextState": "UnderTempAlarm"
+                        },
+                        {
+                            "eventName": "tempAboveMin",
+                            "condition": "convert(Decimal,$input.vivInput.temperature_degC_mean) > convert(Decimal,$input.vivInput.minTemp_degC)",
+                            "actions": [],
+                            "nextState": "TempInRange"
+                        }
+                    ]
+                },
+                "onEnter": {
+                    "events": [
+                        {
+                            "eventName": "startTimer",
+                            "condition": "true",
+                            "actions": [
+                                {
+                                    "setTimer": {
+                                        "timerName": "loTempDur",
+                                        "seconds": 300,
+                                        "durationExpression": null
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "onExit": {
+                    "events": [
+                        {
+                            "eventName": "deleteTimer",
+                            "condition": "true",
+                            "actions": [
+                                {
+                                    "clearTimer": {
+                                        "timerName": "loTempDur"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "stateName": "TempInRange",
+                "onInput": {
+                    "events": [
+                        {
+                            "eventName": "readTemp",
+                            "condition": "true",
+                            "actions": [
+                                {
+                                    "setVariable": {
+                                        "variableName": "temperature_degC",
+                                        "value": "convert(Decimal, $input.vivInput.temperature_degC_mean)"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "transitionEvents": [
+                        {
+                            "eventName": "tempAboveMax",
+                            "condition": "convert(Decimal, $input.vivInput.temperature_degC_mean) > convert(Decimal, $input.vivInput.maxTemp_degC)",
+                            "actions": [],
+                            "nextState": "OverTemp"
+                        },
+                        {
+                            "eventName": "tempBelowMin",
+                            "condition": "convert(Decimal,$input.vivInput.temperature_degC_mean) < convert(Decimal,$input.vivInput.minTemp_degC)",
+                            "actions": [],
+                            "nextState": "UnderTemp"
+                        }
+                    ]
+                },
+                "onEnter": {
+                    "events": [
+                        {
+                            "eventName": "inRange",
+                            "condition": "true",
+                            "actions": [
+                                {
+                                    "sns": {
+                                        "targetArn": "arn:aws:sns:us-east-1:119690479916:vivaciousTemperatureAlert"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "eventName": "sendAlert",
+                            "condition": "true",
+                            "actions": [
+                                {
+                                    "sns": {
+                                        "targetArn": "arn:aws:sns:us-east-1:119690479916:vivaciousTemperatureAlert"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "onExit": {
+                    "events": []
+                }
+            },
+            {
+                "stateName": "UnderTempAlarm",
+                "onInput": {
+                    "events": [],
+                    "transitionEvents": [
+                        {
+                            "eventName": "tempAboveMin",
+                            "condition": "convert(Decimal,$input.vivInput.temperature_degC_mean) > convert(Decimal,$input.vivInput.minTemp_degC)",
+                            "actions": [],
+                            "nextState": "TempInRange"
+                        }
+                    ]
+                },
+                "onEnter": {
+                    "events": [
+                        {
+                            "eventName": "sendAlert",
+                            "condition": "true",
+                            "actions": [
+                                {
+                                    "sns": {
+                                        "targetArn": "arn:aws:sns:us-east-1:119690479916:vivaciousTemperatureAlert"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "onExit": {
+                    "events": []
+                }
+            },
+            {
+                "stateName": "OverTempAlarm",
+                "onInput": {
+                    "events": [],
+                    "transitionEvents": [
+                        {
+                            "eventName": "tempBelowMax",
+                            "condition": "convert(Decimal,$input.vivInput.temperature_degC_mean) < convert(Decimal,$input.vivInput.maxTemp_degC)",
+                            "actions": [],
+                            "nextState": "TempInRange"
+                        }
+                    ]
+                },
+                "onEnter": {
+                    "events": [
+                        {
+                            "eventName": "sendAlert",
+                            "condition": "true",
+                            "actions": [
+                                {
+                                    "sns": {
+                                        "targetArn": "arn:aws:sns:us-east-1:119690479916:vivaciousTemperatureAlert"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "onExit": {
+                    "events": []
+                }
+            }
+        ],
+        "initialStateName": "TempInRange"
+    },
+    "detectorModelDescription": null,
+    "detectorModelName": "vivaciousHiTempDetector",
+    "evaluationMethod": "BATCH",
+    "key": "thingname",
+    "roleArn": "arn:aws:iam::119690479916:role/service-role/vivaciousEventDetectorRole"
+}

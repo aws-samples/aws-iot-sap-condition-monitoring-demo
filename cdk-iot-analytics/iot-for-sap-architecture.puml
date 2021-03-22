@@ -1,0 +1,104 @@
+@startuml iot-for-sap-architecture
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/master/dist
+!includeurl AWSPuml/AWSCommon.puml
+!includeurl AWSPuml/EndUserComputing/all.puml
+!includeurl AWSPuml/InternetOfThings/IoTCore.puml
+!includeurl AWSPuml/InternetOfThings/IoTMQTTProtocol.puml
+!includeurl AWSPuml/InternetOfThings/IoTGeneric.puml
+!includeurl AWSPuml/InternetOfThings/IoTRule.puml
+!includeurl AWSPuml/InternetOfThings/IoTAction.puml
+!includeurl AWSPuml/Database/DynamoDB.puml
+!includeurl AWSPuml/Compute/Lambda.puml
+!includeurl AWSPuml/InternetOfThings/IoTAnalytics.puml
+!includeurl AWSPuml/InternetOfThings/IoTAnalyticsPipeline.puml
+!includeurl AWSPuml/InternetOfThings/IoTAnalyticsChannel.puml
+!includeurl AWSPuml/InternetOfThings/IoTAnalyticsDataStore.puml
+!includeurl AWSPuml/InternetOfThings/IoTEvents.puml
+!includeurl AWSPuml/ApplicationIntegration/SNSEmailNotification.puml
+!includeurl AWSPuml/InternetOfThings/InternetofThings.puml
+!includeurl AWSPuml/ManagementAndGovernance/CloudFormationStack.puml
+!includeurl AWSPuml/SecurityIdentityAndCompliance/SecretsManager.puml
+
+' comment this to see more detailed view
+!includeurl AWSPuml/AWSSimplified.puml
+
+skinparam componentArrowFontStyle bold
+skinparam componentArrowFontSize 14
+skinparam nodeFontSize 20
+skinparam NoteTextAlignment left
+skinparam componentStyle rectangle
+
+actor "Maintenance\nPersonnel" as MAINT
+
+node SAP [
+__**   SAP   **__
+]
+
+IoTGeneric(deviceAlias, "Pump Monitor", "", "")
+
+skinparam CloudBackgroundColor white
+
+cloud "Internet" as INTERNET
+
+rectangle "<color:#D86613><$CloudFormationStack></color>\niot stack" as IOTSTACK {
+  
+    rectangle "<color:#D86613><$IoTCore></color>\nAWS IoT Core" as IOTCORE {
+
+        IoTMQTTProtocol(iotbrokerAlias, "Broker", "", "")
+
+        rectangle "<color:#D86613><$IoTRule></color>\nRules Engine" as rules {
+          
+            IoTAction(iotactionAlias, "Action", "", "")
+        
+        }
+
+    }
+
+}
+
+
+rectangle "<color:#D86613><$CloudFormationStack></color>\nanalytics stack" as ANALYTICSSTACK {
+
+    DynamoDB(dynamoAlias, "Product\n**Information**", "", "")
+
+    rectangle "<color:#D86613><$IoTAnalytics></color>\nIoT Analytics Pipeline" as analytics {
+        
+        IoTAnalyticsChannel(channelAlias, "Analytics Channel", "", "")
+        IoTAnalytics(registryEnrichAlias, "Device Registry Enrich", "", "Device\nRegistry\nEnrich")
+        IoTAnalytics(removeAttributesAlias, "Remove Attributes", "", "")
+        Lambda(getProductInfoAlias, "Get Product Range", "", "")
+        IoTAnalyticsDataStore(datastoreAlias, "Analytics Datastore", "", "")
+    
+    }
+
+    IoTEvents(eventsDetectorAlias, "Event Detector Model", "", "")
+
+}
+
+rectangle "<color:#D86613><$CloudFormationStack></color>\nsap stack" as SAPSTACK {
+
+  Lambda(odataFunctionAlias, "OData Function", "", "")
+  SNSEmailNotification(snsEmailAlias, "Email Notification", "", "")
+  SecretsManager(secretAlias, "Secret", "", "")
+}
+
+' netlist
+deviceAlias .right.> INTERNET : Telemetry Data\t\t\t\t
+INTERNET .right.> iotbrokerAlias
+iotactionAlias .right.> channelAlias
+channelAlias .down.> registryEnrichAlias
+registryEnrichAlias .down.> removeAttributesAlias
+removeAttributesAlias .down.> getProductInfoAlias
+getProductInfoAlias .down.> datastoreAlias
+getProductInfoAlias -left- dynamoAlias
+datastoreAlias .> eventsDetectorAlias
+eventsDetectorAlias .> odataFunctionAlias : \nTemperature\ntoo high\nfor\ntoo long.
+odataFunctionAlias <.down.> SAP : \tCreate ticket\nin SAP.
+odataFunctionAlias <.left.> secretAlias
+odataFunctionAlias .up.> snsEmailAlias
+snsEmailAlias .[#red]up.> MAINT : \n   TO: John Doe\nFROM: SAP\n      SUBJ: Ref #<N>
+MAINT .[#red]up.> deviceAlias : \nFixes Compressor...
+
+@enduml
+

@@ -1,5 +1,7 @@
 # IoT For SAP CDK Solution
 
+This solution was written by Kenny Rajan, Patrick Leung, Scott Francis, Will Charlton & Ganesh Suryanarayan for the [Predictive Maintenance using SAP and AWS IoT to reduce operational cost](https://aws.amazon.com/blogs/awsforsap/predictive-maintenance-using-sap-and-aws-iot-to-reduce-operational-cost/) blog post.
+
 The purpose of this project is to deploy AWS `cdk` stacks that provide an end-to-end solution for creating SAP ticket alerts by monitoring device telemetry.
 
 *AWS Resources created in this project include:*

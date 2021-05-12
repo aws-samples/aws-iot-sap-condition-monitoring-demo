@@ -124,9 +124,9 @@ def lambda_handler(event, context):
             "X-CSRF-Token" : token
         }
 
-        # print(f"SAP POST url: {url}")
-        # print(f"SAP POST headers: {headers}")
-        # print(f"SAP POST body: {event}")
+        print(f"SAP POST url: {url}")
+        print(f"SAP POST headers: {headers}")
+        print(f"SAP POST body: {event}")
 
         response = session.post(
             url,
@@ -135,10 +135,10 @@ def lambda_handler(event, context):
             json=event
         )
 
-        # print(f"SAP POST response: {response}")
-        # print(f"SAP POST response code: {response.status_code}")
-        # print(f"SAP POST response text: {response.text}")
-        # print(f"SAP POST response headers: {response.headers}")
+        print(f"SAP POST response: {response}")
+        print(f"SAP POST response code: {response.status_code}")
+        print(f"SAP POST response text: {response.text}")
+        print(f"SAP POST response headers: {response.headers}")
 
         if response.status_code == 201:
             message = (response.headers["sap-message"])

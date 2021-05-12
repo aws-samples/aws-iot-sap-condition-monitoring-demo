@@ -40,8 +40,12 @@ Once the `iot` stack is deployed the device X509 Certificate will be located in 
 ### Set Up Local Environment
 
 ```bash
+git clone https://github.com/aws-samples/aws-iot-sap-condition-monitoring-demo.git
+cd aws-iot-sap-condition-monitoring-demo
+cd cdk-iot-analytics
 python3 -m venv .venv
 source .venv/bin/activate
+mkdir certs
 pip install -r requirements.txt
 ```
 

@@ -157,7 +157,7 @@ def get_events_input(scope):
     )
 
 def get_analytics_dataset(scope, datastore_name, input_name):
-    bucket_name = f"cdksapbloganalyticsdatasetbucket-{scope.thing_name}"
+    bucket_name = f"cdksap-{scope.account}-{scope.thing_name}"
     dataset_name = "CDKSAPBlogAnalyticsDataset"
 
     bucket_service_role = iam.Role(
@@ -283,7 +283,7 @@ def get_detector_model(scope, input_name, sns_arn):
     "d": {{
         "Equipment": "${{$input.{input_name}.Equipment}}",
         "FunctLoc": "${{$input.{input_name}.FunctLoc}}",
-        "ShortText": "Temperature Alarm[{state}]",
+        "ShortText": "Temp Alarm [{state}]",
         "LongText": "Temperature Alarm in ${{$input.{input_name}.Type}} Motor"
     }}
 }}'"""

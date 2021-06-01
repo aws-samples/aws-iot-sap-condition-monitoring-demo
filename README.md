@@ -73,16 +73,16 @@ Configure stack variables in `cdk.json`:
 
 ## Deploy the IoT Stack
 
-**NOTE:** Bootstrapping CDK to the target account/region may be necessary: 
-
-```bash
-cdk bootstrap aws://<account>/<region>
-```
-
 **NOTE:** You might need to update your CDK before deployment:
 
 ```bash
 npm install aws-cdk -g --force
+```
+
+**NOTE:** Bootstrapping CDK to the target account/region may be necessary: 
+
+```bash
+cdk bootstrap aws://<account>/<region>
 ```
 
 Deploy initial stack

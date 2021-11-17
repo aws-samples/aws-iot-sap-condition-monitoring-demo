@@ -23,6 +23,7 @@ from botocore.exceptions import ClientError
 
 region = os.environ['AWS_REGION']
 sapHostName=os.environ['sapHostName']
+urlPrefix=os.environ['urlPrefix']
 sapPort=os.environ['sapPort']
 odpServiceName=os.environ['odpServiceName']
 odpEntitySetName=os.environ['odpEntitySetName']
@@ -36,9 +37,12 @@ sns_client = boto3.client('sns')
 # ------------------------------------
 def _get_base_url():
     global sapPort
+    global urlPrefix
+    if urlPrefix == "":
+        urlPrefix = "http://"
     if sapPort == "":
         sapPort = "50000"
-    return "http://" + sapHostName + ":" + sapPort + "/sap/opu/odata/sap/" + odpServiceName
+    return urlPrefix + sapHostName + ":" + sapPort + "/sap/opu/odata/sap/" + odpServiceName
 
 # ------------------------------------
 # Get Username and Password from Secret Manager
@@ -132,7 +136,8 @@ def lambda_handler(event, context):
             url,
             auth=HTTPBasicAuth(sapUser,sapPassword),
             headers=headers,
-            json=event
+            json=event,
+            verify=False
         )
 
         print(f"SAP POST response: {response}")

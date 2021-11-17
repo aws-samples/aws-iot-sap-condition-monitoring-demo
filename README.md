@@ -69,6 +69,7 @@ Configure stack variables in `cdk.json`:
 | `sapPort`               | The port or IP of the SAP server                 |
 | `sapUsername`           | The SAP server username                          |
 | `sapPassword`           | The SAP server password                          |
+| `urlPrefix`             | Either http:// or https://                       |
 
 
 ## Deploy the IoT Stack

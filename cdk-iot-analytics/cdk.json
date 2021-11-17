@@ -21,6 +21,7 @@
     "sapPort": "<SAP port number>",
     "sapUsername": "<SAP user name>",
     "sapPassword": "<SAP password>",
+    "urlPrefix": "http://",
     "RSA_bitlength": 2048
   }
 }

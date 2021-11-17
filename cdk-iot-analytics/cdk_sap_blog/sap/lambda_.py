@@ -85,13 +85,14 @@ def get_odata(scope, sns_topic_arn):
         runtime=lambda_.Runtime.PYTHON_3_7,
         code=lambda_.Code.from_asset('cdk_sap_blog/sap/lambda_assets/function_code'),
         handler='lambda_function.lambda_handler',
-        timeout=core.Duration.minutes(5),
+        timeout=core.Duration.minutes(1),
         layers=[layer],
         role=lambda_role,
         environment={
             'odpEntitySetName': scope.odpEntitySetName,
             'odpServiceName': scope.odpServiceName,
             'sapHostName': scope.sapHostName,
+            'urlPrefix': scope.urlPrefix,
             'sapPort': scope.sapPort,
             'snsAlertEmailTopic': sns_topic_arn,
             'SECRET_NAME': sapSecretName

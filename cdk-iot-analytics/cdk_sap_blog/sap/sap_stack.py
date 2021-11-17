@@ -18,6 +18,7 @@ class CdkSAPBlogSAPStack(core.Stack):
 		self.odpEntitySetName = self.node.try_get_context('odpEntitySetName')
 		self.odpServiceName = self.node.try_get_context('odpServiceName')
 		self.sapHostName = self.node.try_get_context('sapHostName')
+		self.urlPrefix = self.node.try_get_context('urlPrefix')
 		self.sapPort = self.node.try_get_context('sapPort')
 		self.sapUsername = self.node.try_get_context('sapUsername')
 		self.sapPassword = self.node.try_get_context('sapPassword')

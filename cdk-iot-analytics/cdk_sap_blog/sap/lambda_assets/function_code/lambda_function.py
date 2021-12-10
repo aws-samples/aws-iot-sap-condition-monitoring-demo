@@ -151,7 +151,7 @@ def lambda_handler(event, context):
             print(response.headers["sap-message"])
             try:
                 tmp = v = xml.parse(message)
-                message = (f"SAP Service {tmp['notification']['message']} created for temperature alarm!")
+                message = (f"SAP Service {tmp['notification']['message']} for temperature alarm!")
             except Exception as exc:
                 print(f'xml parser failed: {exc}')
             sns_client.publish(

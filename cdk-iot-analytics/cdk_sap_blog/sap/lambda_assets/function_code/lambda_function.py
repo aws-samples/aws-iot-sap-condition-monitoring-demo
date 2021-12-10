@@ -114,7 +114,7 @@ def lambda_handler(event, context):
         print(f"SAP session response text: {response.text}")
         
     except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError) as err:
-        print("Connection to SAP Odata services timed out: " + str(err.__class__.__name__))
+        print("Connection to SAP System timed out: " + str(err.__class__.__name__))
         print("Is this the correct hostname and port number?")
         sys.exit(1)
     
@@ -151,7 +151,7 @@ def lambda_handler(event, context):
             print(response.headers["sap-message"])
             try:
                 tmp = v = xml.parse(message)
-                message = (f"Service {tmp['notification']['message']} in SAP for temperature alarm")
+                message = (f"SAP Service {tmp['notification']['message']} created for temperature alarm!")
             except Exception as exc:
                 print(f'xml parser failed: {exc}')
             sns_client.publish(
@@ -160,7 +160,7 @@ def lambda_handler(event, context):
             )
         
     except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError) as err:
-        print("Connection to SAP Odata services timed out: " + str(err.__class__.__name__))
+        print("Connection to SAP System timed out: " + str(err.__class__.__name__))
         print("Is this the correct hostname and port number?")
         sys.exit(1)
   

@@ -14,7 +14,7 @@
                         },
                         {
                             "eventName": "tempBelowMax",
-                            "condition": "convert(Decimal,$input.vivInput.temperature_degC_mean) < convert(Decimal,$input.vivInput.maxTemp_degC)",
+                            "condition": "convert(Decimal,$input.CDKSAPBlogEventsInput.temperature_degC_mean) < convert(Decimal,$input.CDKSAPBlogEventsInput.maxTemp_degC)",
                             "actions": [],
                             "nextState": "TempInRange"
                         }
@@ -29,7 +29,7 @@
                                 {
                                     "setTimer": {
                                         "timerName": "hiTempDur",
-                                        "seconds": 300,
+                                        "seconds": 60,
                                         "durationExpression": null
                                     }
                                 }
@@ -66,7 +66,7 @@
                         },
                         {
                             "eventName": "tempAboveMin",
-                            "condition": "convert(Decimal,$input.vivInput.temperature_degC_mean) > convert(Decimal,$input.vivInput.minTemp_degC)",
+                            "condition": "convert(Decimal,$input.CDKSAPBlogEventsInput.temperature_degC_mean) > convert(Decimal,$input.CDKSAPBlogEventsInput.minTemp_degC)",
                             "actions": [],
                             "nextState": "TempInRange"
                         }
@@ -81,7 +81,7 @@
                                 {
                                     "setTimer": {
                                         "timerName": "loTempDur",
-                                        "seconds": 300,
+                                        "seconds": 60,
                                         "durationExpression": null
                                     }
                                 }
@@ -116,7 +116,7 @@
                                 {
                                     "setVariable": {
                                         "variableName": "temperature_degC",
-                                        "value": "convert(Decimal, $input.vivInput.temperature_degC_mean)"
+                                        "value": "convert(Decimal, $input.CDKSAPBlogEventsInput.temperature_degC_mean)"
                                     }
                                 }
                             ]
@@ -125,43 +125,20 @@
                     "transitionEvents": [
                         {
                             "eventName": "tempAboveMax",
-                            "condition": "convert(Decimal, $input.vivInput.temperature_degC_mean) > convert(Decimal, $input.vivInput.maxTemp_degC)",
+                            "condition": "convert(Decimal, $input.CDKSAPBlogEventsInput.temperature_degC_mean) > convert(Decimal, $input.CDKSAPBlogEventsInput.maxTemp_degC)",
                             "actions": [],
                             "nextState": "OverTemp"
                         },
                         {
                             "eventName": "tempBelowMin",
-                            "condition": "convert(Decimal,$input.vivInput.temperature_degC_mean) < convert(Decimal,$input.vivInput.minTemp_degC)",
+                            "condition": "convert(Decimal,$input.CDKSAPBlogEventsInput.temperature_degC_mean) < convert(Decimal,$input.CDKSAPBlogEventsInput.minTemp_degC)",
                             "actions": [],
                             "nextState": "UnderTemp"
                         }
                     ]
                 },
                 "onEnter": {
-                    "events": [
-                        {
-                            "eventName": "inRange",
-                            "condition": "true",
-                            "actions": [
-                                {
-                                    "sns": {
-                                        "targetArn": "arn:aws:sns:us-east-1:119690479916:vivaciousTemperatureAlert"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "eventName": "sendAlert",
-                            "condition": "true",
-                            "actions": [
-                                {
-                                    "sns": {
-                                        "targetArn": "arn:aws:sns:us-east-1:119690479916:vivaciousTemperatureAlert"
-                                    }
-                                }
-                            ]
-                        }
-                    ]
+                    "events": []
                 },
                 "onExit": {
                     "events": []
@@ -174,7 +151,7 @@
                     "transitionEvents": [
                         {
                             "eventName": "tempAboveMin",
-                            "condition": "convert(Decimal,$input.vivInput.temperature_degC_mean) > convert(Decimal,$input.vivInput.minTemp_degC)",
+                            "condition": "convert(Decimal,$input.CDKSAPBlogEventsInput.temperature_degC_mean) > convert(Decimal,$input.CDKSAPBlogEventsInput.minTemp_degC)",
                             "actions": [],
                             "nextState": "TempInRange"
                         }
@@ -187,8 +164,12 @@
                             "condition": "true",
                             "actions": [
                                 {
-                                    "sns": {
-                                        "targetArn": "arn:aws:sns:us-east-1:119690479916:vivaciousTemperatureAlert"
+                                    "lambda": {
+                                        "functionArn": "arn:aws:lambda:us-east-1:052719037315:function:CDK-SAP-Blog-OData-Function",
+                                        "payload": {
+                                            "contentExpression": "'{\n    \"d\": {\n        \"Equipment\": \"${$input.CDKSAPBlogEventsInput.Equipment}\",\n        \"FunctLoc\": \"${$input.CDKSAPBlogEventsInput.FunctLoc}\",\n        \"ShortText\": \"Alarm temperature below threshold\",\n        \"LongText\": \"Temperature of ${$input.CDKSAPBlogEventsInput.Type} at ${convert(Decimal,$input.CDKSAPBlogEventsInput.temperature_degC_mean)} °C below threshold of ${convert(Decimal,$input.CDKSAPBlogEventsInput.minTemp_degC)} °C\"\n    }\n}'",
+                                            "type": "JSON"
+                                        }
                                     }
                                 }
                             ]
@@ -206,7 +187,7 @@
                     "transitionEvents": [
                         {
                             "eventName": "tempBelowMax",
-                            "condition": "convert(Decimal,$input.vivInput.temperature_degC_mean) < convert(Decimal,$input.vivInput.maxTemp_degC)",
+                            "condition": "convert(Decimal,$input.CDKSAPBlogEventsInput.temperature_degC_mean) < convert(Decimal,$input.CDKSAPBlogEventsInput.maxTemp_degC)",
                             "actions": [],
                             "nextState": "TempInRange"
                         }
@@ -219,8 +200,12 @@
                             "condition": "true",
                             "actions": [
                                 {
-                                    "sns": {
-                                        "targetArn": "arn:aws:sns:us-east-1:119690479916:vivaciousTemperatureAlert"
+                                    "lambda": {
+                                        "functionArn": "arn:aws:lambda:us-east-1:052719037315:function:CDK-SAP-Blog-OData-Function",
+                                        "payload": {
+                                            "contentExpression": "'{\n    \"d\": {\n        \"Equipment\": \"${$input.CDKSAPBlogEventsInput.Equipment}\",\n        \"FunctLoc\": \"${$input.CDKSAPBlogEventsInput.FunctLoc}\",\n        \"ShortText\": \"Alarm temperature above threshold\",\n        \"LongText\": \"Temperature of ${$input.CDKSAPBlogEventsInput.Type} at ${convert(Decimal,$input.CDKSAPBlogEventsInput.temperature_degC_mean)} °C above threshold of ${convert(Decimal,$input.CDKSAPBlogEventsInput.maxTemp_degC)} °C\"\n    }\n}'",
+                                            "type": "JSON"
+                                        }
                                     }
                                 }
                             ]
@@ -234,9 +219,9 @@
         ],
         "initialStateName": "TempInRange"
     },
-    "detectorModelDescription": null,
-    "detectorModelName": "vivaciousHiTempDetector",
+    "detectorModelDescription": "Detect temperature in a given range.",
+    "detectorModelName": "CDKSAPBlogDetectorModel",
     "evaluationMethod": "BATCH",
     "key": "thingname",
-    "roleArn": "arn:aws:iam::119690479916:role/service-role/vivaciousEventDetectorRole"
+    "roleArn": "arn:aws:iam::052719037315:role/CDKSAPBlogEventDetectorRole"
 }

@@ -119,6 +119,17 @@ cdk deploy sap
 cdk deploy analytics -O=analytics-outputs.json
 ```
 
+## Update Detector Model to latest version
+
+```bash
+cd cdk_sap_blog/analytics
+AWSACCOUNTID=$(aws sts get-caller-identity --query Account --output text)
+sed -i 's/AWSACCOUNTID/'$AWSACCOUNTID'/g' detector_model.json
+aws iotevents update-detector-model --cli-input-json file://detector_model.json
+cd..
+cd..
+```
+
 ## Test Alarm
 
 ### Test Configuration Variables
@@ -133,6 +144,8 @@ The `AWS_REGION` is needs to be set to the same AWS Region used to bootstrap CDK
 
 ```bash
 python simulator.py --region=<AWS_REGION>
+python simulator.py --region=<AWS_REGION> --overtemp
+python simulator.py --region=<AWS_REGION> --undertemp
 ```
 
 Once the Alarm is triggered, the end-to-end solution has completed.

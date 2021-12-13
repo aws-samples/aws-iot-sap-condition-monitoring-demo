@@ -165,7 +165,7 @@
                             "actions": [
                                 {
                                     "lambda": {
-                                        "functionArn": "arn:aws:lambda:us-east-1:052719037315:function:CDK-SAP-Blog-OData-Function",
+                                        "functionArn": "arn:aws:lambda:us-east-1:AWSACCOUNTID:function:CDK-SAP-Blog-OData-Function",
                                         "payload": {
                                             "contentExpression": "'{\n    \"d\": {\n        \"Equipment\": \"${$input.CDKSAPBlogEventsInput.Equipment}\",\n        \"FunctLoc\": \"${$input.CDKSAPBlogEventsInput.FunctLoc}\",\n        \"ShortText\": \"Alarm temperature below threshold\",\n        \"LongText\": \"Temperature of ${$input.CDKSAPBlogEventsInput.Type} at ${convert(Decimal,$input.CDKSAPBlogEventsInput.temperature_degC_mean)} °C below threshold of ${convert(Decimal,$input.CDKSAPBlogEventsInput.minTemp_degC)} °C\"\n    }\n}'",
                                             "type": "JSON"
@@ -201,7 +201,7 @@
                             "actions": [
                                 {
                                     "lambda": {
-                                        "functionArn": "arn:aws:lambda:us-east-1:052719037315:function:CDK-SAP-Blog-OData-Function",
+                                        "functionArn": "arn:aws:lambda:us-east-1:AWSACCOUNTID:function:CDK-SAP-Blog-OData-Function",
                                         "payload": {
                                             "contentExpression": "'{\n    \"d\": {\n        \"Equipment\": \"${$input.CDKSAPBlogEventsInput.Equipment}\",\n        \"FunctLoc\": \"${$input.CDKSAPBlogEventsInput.FunctLoc}\",\n        \"ShortText\": \"Alarm temperature above threshold\",\n        \"LongText\": \"Temperature of ${$input.CDKSAPBlogEventsInput.Type} at ${convert(Decimal,$input.CDKSAPBlogEventsInput.temperature_degC_mean)} °C above threshold of ${convert(Decimal,$input.CDKSAPBlogEventsInput.maxTemp_degC)} °C\"\n    }\n}'",
                                             "type": "JSON"
@@ -223,5 +223,5 @@
     "detectorModelName": "CDKSAPBlogDetectorModel",
     "evaluationMethod": "BATCH",
     "key": "thingname",
-    "roleArn": "arn:aws:iam::052719037315:role/CDKSAPBlogEventDetectorRole"
+    "roleArn": "arn:aws:iam::AWSACCOUNTID:role/CDKSAPBlogEventDetectorRole"
 }

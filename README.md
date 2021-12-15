@@ -122,12 +122,9 @@ cdk deploy analytics -O=analytics-outputs.json
 ## Update Detector Model to latest version
 
 ```bash
-cd cdk_sap_blog/analytics
 AWSACCOUNTID=$(aws sts get-caller-identity --query Account --output text)
-sed -i 's/AWSACCOUNTID/'$AWSACCOUNTID'/g' detector_model.json
-aws iotevents update-detector-model --cli-input-json file://detector_model.json
-cd..
-cd..
+sed -i 's/AWSACCOUNTID/'$AWSACCOUNTID'/g' cdk_sap_blog/analytics/detector_model.json
+aws iotevents update-detector-model --cli-input-json file://cdk_sap_blog/analytics/detector_model.json
 ```
 
 ## Test Alarm

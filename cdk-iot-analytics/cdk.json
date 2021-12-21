@@ -5,23 +5,23 @@
     "aws-cdk:enableDiffNoFail": "true",
     "@aws-cdk/core:stackRelativeExports": "true",
     "@aws-cdk/aws-ecr-assets:dockerIgnoreSupport": true,
-    "thing_name": "<thing_name>",
-    "Type": "<type",
-    "Equipment": "<equipment>",
-    "FunctLoc": "<functloc>",
-    "temperature_min": "<temp_min>",
-    "temperature_max": "<temp_max>",
-    "sns_alert_email_topic": "<email_alert_topic>",
+    "thing_name": "sap-iot-thing",
+    "Type": "Compressor",
+    "Equipment": "<SAP Equipment Number e.g. 217100091>",
+    "FunctLoc": "<SAP Functional Location e.g. 1710-CWS-WCS-CWCP1>",
+    "temperature_min": "12",
+    "temperature_max": "14",
+    "sns_alert_email_topic": "TemperatureAlarm",
     "alarm_emails": [
-      "<email_address1>"
+      "<name@domain.com>"
     ],
-    "odpEntitySetName" : "<SAP Odata entity set name>",
-    "odpServiceName": "<SAP Odata service name>",
-    "sapHostName": "<SAP hostname>",
-    "sapPort": "<SAP port number>",
-    "sapUsername": "<SAP user name>",
-    "sapPassword": "<SAP password>",
-    "urlPrefix": "http://",
+    "odpEntitySetName" : "NOTIF_CREATESet",
+    "odpServiceName": "ZSERVICE_PM_NOTIFICATION_SRV",
+    "sapHostName": "<host>",
+    "sapPort": "<port>",
+    "sapUsername": "<user>",
+    "sapPassword": "<password>",
+    "urlPrefix": "https://",
     "RSA_bitlength": 2048
   }
 }

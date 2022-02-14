@@ -47,8 +47,7 @@
                                 {
                                     "setTimer": {
                                         "timerName": "hiTempDur",
-                                        "seconds": 60,
-                                        "durationExpression": null
+                                        "seconds": 60
                                     }
                                 }
                             ]
@@ -60,8 +59,7 @@
                                 {
                                     "setTimer": {
                                         "timerName": "awake",
-                                        "seconds": 70,
-                                        "durationExpression": null
+                                        "seconds": 70
                                     }
                                 }
                             ]
@@ -130,8 +128,7 @@
                                 {
                                     "setTimer": {
                                         "timerName": "loTempDur",
-                                        "seconds": 60,
-                                        "durationExpression": null
+                                        "seconds": 60
                                     }
                                 }
                             ]
@@ -143,8 +140,7 @@
                                 {
                                     "setTimer": {
                                         "timerName": "awake",
-                                        "seconds": 70,
-                                        "durationExpression": null
+                                        "seconds": 70
                                     }
                                 }
                             ]
@@ -225,8 +221,7 @@
                                 {
                                     "setTimer": {
                                         "timerName": "awake",
-                                        "seconds": 70,
-                                        "durationExpression": null
+                                        "seconds": 70
                                     }
                                 }
                             ]
@@ -286,8 +281,7 @@
                                 {
                                     "setTimer": {
                                         "timerName": "awake",
-                                        "seconds": 70,
-                                        "durationExpression": null
+                                        "seconds": 70
                                     }
                                 }
                             ]
@@ -347,8 +341,7 @@
                                 {
                                     "setTimer": {
                                         "timerName": "awake",
-                                        "seconds": 60,
-                                        "durationExpression": null
+                                        "seconds": 60
                                     }
                                 }
                             ]
@@ -385,6 +378,5 @@
     "detectorModelDescription": "Detect temperature in a given range.",
     "detectorModelName": "CDKSAPBlogDetectorModel",
     "evaluationMethod": "BATCH",
-    "key": "thingname",
     "roleArn": "arn:aws:iam::AWSACCOUNTID:role/CDKSAPBlogEventDetectorRole"
 }

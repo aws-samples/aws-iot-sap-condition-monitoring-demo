@@ -77,7 +77,7 @@ Configure stack variables in `cdk.json`:
 **NOTE:** You might need to update your CDK before deployment:
 
 ```bash
-npm install aws-cdk -g --force
+npm install -g aws-cdk@latest-1 --force
 ```
 
 **NOTE:** Bootstrapping CDK to the target account/region may be necessary: 

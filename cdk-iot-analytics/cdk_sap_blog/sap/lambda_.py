@@ -82,7 +82,7 @@ def get_odata(scope, sns_topic_arn):
         scope=scope,
         id=lambda_name,
         function_name=lambda_name,
-        runtime=lambda_.Runtime.PYTHON_3_7,
+        runtime=lambda_.Runtime.PYTHON_3_8,
         code=lambda_.Code.from_asset('cdk_sap_blog/sap/lambda_assets/function_code'),
         handler='lambda_function.lambda_handler',
         timeout=core.Duration.minutes(1),

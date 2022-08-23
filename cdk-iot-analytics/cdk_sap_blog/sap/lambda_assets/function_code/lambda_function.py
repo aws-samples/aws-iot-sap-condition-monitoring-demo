@@ -16,8 +16,8 @@ import boto3
 import os
 import sys
 import xmltodict as xml
-from botocore.vendored import requests
-from botocore.vendored.requests.auth import HTTPBasicAuth
+import requests
+from requests.auth import HTTPBasicAuth
 from botocore.exceptions import ClientError
 
 

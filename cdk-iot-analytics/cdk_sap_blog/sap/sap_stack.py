@@ -2,15 +2,23 @@ import os
 import json
 import sap.lambda_ as lambda_
 import sap.sns as sns
-from aws_cdk import core
+
+from aws_cdk import (
+    Stack,
+    CfnOutput,
+)
+
+from constructs import (
+    Construct,
+)
 
 
-class CdkSAPBlogSAPStack(core.Stack):
+class CdkSAPBlogSAPStack(Stack):
 	account = None
 	region = None
 	thing_name = None
 
-	def __init__(self, scope: core.Construct, construct_id: str, **kwargs) -> None:
+	def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
 		super().__init__(scope, construct_id, **kwargs)
 
 		self.account = os.environ["CDK_DEFAULT_ACCOUNT"]
@@ -54,7 +62,7 @@ class CdkSAPBlogSAPStack(core.Stack):
 		m_lambda = lambda_.get_odata(self, from_sap_topic.ref)
 		m_lambda.node.add_dependency(from_sap_topic)
 
-		# core.CfnOutput(
+		# CfnOutput(
 		# 	scope=self,
 		# 	id="SAPODataLambdaArn",
 		# 	export_name=f"{self.stack_name}:SAPODataLambdaArn",

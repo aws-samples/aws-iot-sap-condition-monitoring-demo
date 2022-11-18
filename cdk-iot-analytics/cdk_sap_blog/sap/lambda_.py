@@ -2,8 +2,17 @@ import json
 import aws_cdk.aws_lambda as lambda_
 import aws_cdk.aws_iam as iam
 import aws_cdk.aws_secretsmanager as secretsmanager
-from aws_cdk.core import Tags
-import aws_cdk.core as core
+
+from aws_cdk import (
+    Stack,
+    CfnOutput,
+    Tags,
+    Duration,
+)
+
+from constructs import (
+    Construct,
+)
 
 sapSecretName = 'CDK-SAP-Blog-SAPSecret'
 
@@ -85,7 +94,7 @@ def get_odata(scope, sns_topic_arn):
         runtime=lambda_.Runtime.PYTHON_3_8,
         code=lambda_.Code.from_asset('cdk_sap_blog/sap/lambda_assets/function_code'),
         handler='lambda_function.lambda_handler',
-        timeout=core.Duration.minutes(1),
+        timeout=Duration.minutes(1),
         layers=[layer],
         role=lambda_role,
         environment={

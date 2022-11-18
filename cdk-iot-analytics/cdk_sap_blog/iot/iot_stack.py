@@ -16,7 +16,16 @@ from create_key_and_csr import (
 	download_root_CA
 )
 import aws_cdk.aws_iot as iot
-from aws_cdk import core
+
+from aws_cdk import (
+    Stack,
+    CfnOutput,
+)
+
+from constructs import (
+    Construct,
+)
+
 import aws_cdk.custom_resources as cr
 import aws_cdk.aws_iam as iam
 from aws_cdk.custom_resources import (
@@ -27,12 +36,12 @@ from aws_cdk.custom_resources import (
 )
 
 
-class CdkSAPBlogIoTStack(core.Stack):
+class CdkSAPBlogIoTStack(Stack):
 	account = None
 	region = None
 	thing_name = None
 
-	def __init__(self, scope: core.Construct, construct_id: str, **kwargs) -> None:
+	def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
 		super().__init__(scope, construct_id, **kwargs)
 
 		self.account = os.environ["CDK_DEFAULT_ACCOUNT"]
@@ -290,14 +299,14 @@ class CdkSAPBlogIoTStack(core.Stack):
 		)
 
 
-		core.CfnOutput(
+		CfnOutput(
 			scope=self,
 			id="DescribeEndpoint",
 			export_name=f"{self.stack_name}:DescribeEndpoint",
 			value=describe_endpoint.get_response_field('endpointAddress')
 		)
 
-		core.CfnOutput(
+		CfnOutput(
 			scope=self,
 			id="CertificateId",
 			export_name=f"{self.stack_name}:CertificateId",
@@ -305,10 +314,10 @@ class CdkSAPBlogIoTStack(core.Stack):
 		)
 
 
-class CDKSAPBlogSignedCSR(core.Construct):
+class CDKSAPBlogSignedCSR(Construct):
 	def __init__(
 		self,
-		scope: core.Construct,
+		scope: Construct,
 		id: str,
 		csr: str,
 	) -> None:

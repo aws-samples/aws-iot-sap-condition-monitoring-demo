@@ -34,7 +34,7 @@ Once the `iot` stack is deployed the device X509 Certificate will be located in 
 
 | Tool            | Link                                                                           |
 |-----------------|--------------------------------------------------------------------------------|
-| AWS CDK         | https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html              |
+| AWS CDK v2         | https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html              |
 | `python3`       | https://www.python.org/downloads/                                              |
 
 ### Set Up Local Environment
@@ -77,7 +77,7 @@ Configure stack variables in `cdk.json`:
 **NOTE:** You might need to update your CDK before deployment:
 
 ```bash
-npm install -g aws-cdk@latest-1 --force
+npm install -g aws-cdk@latest --force
 ```
 
 **NOTE:** Bootstrapping CDK to the target account/region may be necessary: 

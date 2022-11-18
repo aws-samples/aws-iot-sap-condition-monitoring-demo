@@ -1,7 +1,17 @@
 import json
 import analytics.rules as rules
 import analytics.lambda_ as _lambda_
-from aws_cdk import core
+
+from aws_cdk import (
+    Stack,
+    CfnOutput,
+    RemovalPolicy,
+)
+
+from constructs import (
+    Construct,
+)
+
 import aws_cdk.aws_s3 as s3
 import aws_cdk.aws_iam as iam
 import aws_cdk.aws_iotanalytics as analytics
@@ -179,11 +189,11 @@ def get_analytics_dataset(scope, datastore_name, input_name):
         bucket_name=bucket_name,
         block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
         public_read_access=False,
-        removal_policy=core.RemovalPolicy.DESTROY
+        removal_policy=RemovalPolicy.DESTROY
     )
 
-    # outputß
-    core.CfnOutput(
+    # output
+    CfnOutput(
         scope=scope,
         id="AnalyticsBucketURI",
         export_name=f"AnalyticsBucketURI",

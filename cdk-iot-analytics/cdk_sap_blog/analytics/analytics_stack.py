@@ -8,15 +8,22 @@ import json
 import analytics.lambda_ as lambda_
 import analytics.dynamo as dynamo
 import analytics.analytics as analytics
-from aws_cdk import core
 
+from aws_cdk import (
+    Stack,
+    CfnOutput,
+)
 
-class CdkSAPBlogAnalyticsStack(core.Stack):
+from constructs import (
+    Construct,
+)
+
+class CdkSAPBlogAnalyticsStack(Stack):
 	account = None
 	region = None
 	thing_name = None
 
-	def __init__(self, scope: core.Construct, construct_id: str, **kwargs) -> None:
+	def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
 		super().__init__(scope, construct_id, **kwargs)
 
 		self.account = os.environ["CDK_DEFAULT_ACCOUNT"]

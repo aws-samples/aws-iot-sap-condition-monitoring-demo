@@ -19,16 +19,7 @@ setuptools.setup(
     packages=setuptools.find_packages(where="cdk_sap_blog"),
 
     install_requires=[
-        "aws_cdk.core",
-        "aws_cdk.aws_s3",
-        "aws_cdk.aws_sns",
-        "aws_cdk.aws_iot",
-        "aws_cdk.aws_iam",
-        "aws_cdk.aws_lambda",
-        "aws_cdk.aws_dynamodb",
-        "aws_cdk.aws_iotevents",
-        "aws_cdk.aws_iotanalytics",
-        "aws_cdk.aws_secretsmanager",
+        "aws-cdk-lib",
         "click",
         "pyOpenSSL",
         "requests",

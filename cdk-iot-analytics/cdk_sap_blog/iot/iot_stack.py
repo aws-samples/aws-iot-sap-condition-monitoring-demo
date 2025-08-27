@@ -9,7 +9,6 @@ Design
 import os
 import json
 from OpenSSL import crypto
-#import iot.lambda_ as lambda_
 import iot.rules as rules
 from create_key_and_csr import (
 	generate_key_and_csr,

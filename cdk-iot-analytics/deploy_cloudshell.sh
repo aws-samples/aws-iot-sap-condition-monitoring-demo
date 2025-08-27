@@ -30,14 +30,14 @@ else
     cdk bootstrap aws://$AWSACCOUNTID/$AWS_DEFAULT_REGION
     
     cdk deploy iot -O=iot-outputs.json --require-approval never
+
+    cdk deploy analytics -O=analytics-outputs.json --require-approval never
     
     pip install \
         requests \
         xmltodict \
         -t ./cdk_sap_blog/sap/lambda_assets/layer/python/
-    
+
     cdk deploy sap --require-approval never
-    
-    cdk deploy analytics -O=analytics-outputs.json --require-approval never
 
 fi

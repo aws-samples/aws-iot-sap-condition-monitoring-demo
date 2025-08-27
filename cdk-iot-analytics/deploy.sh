@@ -16,6 +16,12 @@ else
     pip install -r requirements.txt
     
     AWSACCOUNTID=$(aws sts get-caller-identity --query Account --output text)
+    sudo yum install jq -y
+    curl -H "Authorization: $AWS_CONTAINER_AUTHORIZATION_TOKEN" $AWS_CONTAINER_CREDENTIALS_FULL_URI 2>/dev/null > /tmp/credentials
+    export AWS_ACCESS_KEY_ID =`cat /tmp/credentials| jq -r .AccessKeyId`
+    export SECRET_KEY=`cat /tmp/credentials| jq -r .SecretAccessKey`
+    export AWS_SESSION_TOKEN =`cat /tmp/credentials| jq -r .Token`#
+    export AWS_DEFAULT_REGION=${AWS_REGION}
     
     cdk bootstrap aws://$AWSACCOUNTID/us-east-1
     

@@ -17,7 +17,7 @@ The purpose of this sample code is to show how to integrate AWS IoT solutions wi
 
 ### Target Architecture
 
-<todo>
+![Architecture Diagram](cdk-iot-analytics/architecture.drawio.png)
 
 ### Prerequisites
 

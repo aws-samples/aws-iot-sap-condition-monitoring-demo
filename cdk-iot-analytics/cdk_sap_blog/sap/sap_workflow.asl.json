@@ -1,0 +1,36 @@
+{
+    "Comment": "SAP IoT Temperature Alarm Processing Workflow",
+    "StartAt": "ReadDynamoDB",
+    "States": {
+        "ReadDynamoDB": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:getItem",
+            "Parameters": {
+                "TableName": "${DynamoDBTable}",
+                "Key": {
+                    "DeviceID": {
+                        "S": "${ThingName}"
+                    }
+                }
+            },
+            "ResultPath": "$.dynamodb_result",
+            "Next": "ProcessSAPIntegration"
+        },
+        "ProcessSAPIntegration": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+                "FunctionName": "${SAPLambdaFunction}",
+                "Payload": {
+                    "d": {
+                        "Equipment.$": "$.dynamodb_result.Item.SAPEquipmentNr.S",
+                        "FunctLoc.$": "$.dynamodb_result.Item.SAPFunctLoc.S",
+                        "ShortText": "Temperature breach detected",
+                        "LongText.$": "States.Format('IoT temperature alarm: {}', $.detail.alarmName)"
+                    }
+                }
+            },
+            "End": true
+        }
+    }
+}

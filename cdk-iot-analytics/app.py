@@ -14,7 +14,7 @@ from cdk_sap_blog.sap.sap_stack import CdkSAPBlogSAPStack
 
 
 
-app = App(context={'odata_function_name': 'CDK-SAP-Blog-OData-Function'})
+app = App(context={})
 CdkSAPBlogIoTStack(
     app,
     "iot",

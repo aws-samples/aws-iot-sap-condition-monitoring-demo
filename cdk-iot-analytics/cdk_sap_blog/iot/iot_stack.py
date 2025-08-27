@@ -9,7 +9,7 @@ Design
 import os
 import json
 from OpenSSL import crypto
-import iot.lambda_ as lambda_
+#import iot.lambda_ as lambda_
 import iot.rules as rules
 from create_key_and_csr import (
 	generate_key_and_csr,
@@ -48,8 +48,8 @@ class CdkSAPBlogIoTStack(Stack):
 		self.region = os.environ["CDK_DEFAULT_REGION"]
 		self.thing_name = self.node.try_get_context('thing_name')
 		self.Type = self.node.try_get_context('Type')
-		self.Equipment = self.node.try_get_context('Equipment')
-		self.FunctLoc = self.node.try_get_context('FunctLoc')
+		self.sapEquipment = self.node.try_get_context('sapEquipment')
+		self.sapFunctLoc = self.node.try_get_context('sapFunctLoc')
 
 		if not self.thing_name:
 			print("Provide thing_name in cdk.json or on command line (e.g. --context thing_name=my_thing_123)")
@@ -57,11 +57,11 @@ class CdkSAPBlogIoTStack(Stack):
 		if not self.Type:
 			print("Provide Type in cdk.json or on command line (e.g. --context Type=prod-123)")
 			exit(1)
-		if not self.Equipment:
-			print("Provide Equipment in cdk.json or on command line (e.g. --context Equipment=prod-123)")
+		if not self.sapEquipment:
+			print("Provide sapEquipment in cdk.json or on command line (e.g. --context sapEquipment=prod-123)")
 			exit(1)
-		if not self.FunctLoc:
-			print("Provide FunctLoc in cdk.json or on command line (e.g. --context FunctLoc=prod-123)")
+		if not self.sapFunctLoc:
+			print("Provide sapFunctLoc in cdk.json or on command line (e.g. --context sapFunctLoc=prod-123)")
 			exit(1)
 
 		download_root_CA()
@@ -216,8 +216,8 @@ class CdkSAPBlogIoTStack(Stack):
 		# create client connect/pub/sub role and policies
 		mqtt_role = iam.Role(
 			scope=self,
-			id='CDKSAPBlog_MqttRole',
-			role_name='CDKSAPBlog_MqttRole',
+			id='cdk-iot-for-sap-iot-mqtt-role',
+			role_name='cdk-iot-for-sap-iot-mqtt-role',
 			assumed_by=iam.ServicePrincipal('iot.amazonaws.com')
 		)
 		mqtt_role.add_to_policy(
@@ -234,27 +234,27 @@ class CdkSAPBlogIoTStack(Stack):
 		)
 
 		# create lambda loggers
-		if self.node.try_get_context('debug_iot_stack'):
-			all_mqtt_logger = lambda_.get_logger(self, "AllMQTT")
-			error_logger = lambda_.get_logger(self, "Error")
-			mqtt_role.add_to_policy(
-				iam.PolicyStatement(
-					effect=iam.Effect.ALLOW,
-					resources=[
-						all_mqtt_logger.function_arn,
-						error_logger.function_arn,
-					],
-					actions=[
-						'lambda:InvokeFunction',
-					]
-				)
-			)
-			all_mqtt_rule = rules.get_all_mqtt_rule(
-				self,
-				mqtt_role.role_arn,
-				all_mqtt_logger.function_arn,
-				error_logger.function_arn
-			)
+		# if self.node.try_get_context('debug_iot_stack'):
+		# 	all_mqtt_logger = lambda_.get_logger(self, "AllMQTT")
+		# 	error_logger = lambda_.get_logger(self, "Error")
+		# 	mqtt_role.add_to_policy(
+		# 		iam.PolicyStatement(
+		# 			effect=iam.Effect.ALLOW,
+		# 			resources=[
+		# 				all_mqtt_logger.function_arn,
+		# 				error_logger.function_arn,
+		# 			],
+		# 			actions=[
+		# 				'lambda:InvokeFunction',
+		# 			]
+		# 		)
+		# 	)
+		# 	all_mqtt_rule = rules.get_all_mqtt_rule(
+		# 		self,
+		# 		mqtt_role.role_arn,
+		# 		all_mqtt_logger.function_arn,
+		# 		error_logger.function_arn
+		# 	)
 
 		describe_endpoint = cr.AwsCustomResource(
 			scope=self,

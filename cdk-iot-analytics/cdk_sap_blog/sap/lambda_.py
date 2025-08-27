@@ -14,10 +14,10 @@ from constructs import (
     Construct,
 )
 
-sapSecretName = 'CDK-SAP-Blog-SAPSecret'
+sapSecretName = 'sap-iot-secret'
+lambda_name = "sap-iot-sap-odp-integration"
 
 def get_odata(scope, sns_topic_arn):
-    lambda_name = scope.node.try_get_context('odata_function_name')
     lambda_role = iam.Role(
         scope=scope,
         id=f"{lambda_name}Role",
@@ -80,9 +80,9 @@ def get_odata(scope, sns_topic_arn):
 
     layer = lambda_.LayerVersion(
         scope=scope,
-        id='CDK-SAP-Blog-SAP-Lambda-Layer',
+        id=f"{lambda_name}Layer",
         code=lambda_.Code.from_asset('cdk_sap_blog/sap/lambda_assets/layer'),
-        compatible_runtimes=[lambda_.Runtime.PYTHON_3_8, lambda_.Runtime.PYTHON_3_7],
+        compatible_runtimes=[lambda_.Runtime.PYTHON_3_12],
         license='Apache-2.0',
         description='Request library for HTTP(S) calls',
     )
@@ -91,28 +91,22 @@ def get_odata(scope, sns_topic_arn):
         scope=scope,
         id=lambda_name,
         function_name=lambda_name,
-        runtime=lambda_.Runtime.PYTHON_3_8,
+        runtime=lambda_.Runtime.PYTHON_3_12,
         code=lambda_.Code.from_asset('cdk_sap_blog/sap/lambda_assets/function_code'),
         handler='lambda_function.lambda_handler',
         timeout=Duration.minutes(1),
+        architecture=lambda_.Architecture.ARM_64,
         layers=[layer],
         role=lambda_role,
         environment={
-            'odpEntitySetName': scope.odpEntitySetName,
-            'odpServiceName': scope.odpServiceName,
+            'sapOdpEntitySetName': scope.sapOdpEntitySetName,
+            'sapOdpServiceName': scope.sapOdpServiceName,
             'sapHostName': scope.sapHostName,
-            'urlPrefix': scope.urlPrefix,
+            'sapUrlPrefix': scope.sapUrlPrefix,
             'sapPort': scope.sapPort,
             'snsAlertEmailTopic': sns_topic_arn,
-            'SECRET_NAME': sapSecretName
+            'sapSecretName': sapSecretName
         }
     )
-    # L.add_permission(
-    #     id="invoke permissions",
-    #     principal=iam.ServicePrincipal('iotanalytics.amazonaws.com'),
-    #     action="lambda:InvokeFunction",
-    #     source_account=scope.account,
-    #     source_arn=f"arn:aws:iotanalytics:{scope.region}:{scope.account}:*"
-    # )
 
     return L

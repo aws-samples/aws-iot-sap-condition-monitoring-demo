@@ -1,12 +1,12 @@
 import aws_cdk.aws_sns as awssns
 
 
-def get_sap_response_email_sns_topic(scope, alarm_emails):
+def create_sns_topic(scope, alarm_emails):
     return awssns.CfnTopic(
         scope=scope,
-        id=f"CDKSAPBlogSNSSAPResponseTopic",
-        display_name=scope.sns_alert_email_topic,
-        topic_name=scope.sns_alert_email_topic,
+        id=f"sap-iot-sns-topic",
+        display_name="sap-iot-temperature-alarm",
+        topic_name="sap-iot-temperature-alarm",
         subscription=[
             awssns.CfnTopic.SubscriptionProperty(
                 endpoint=email,

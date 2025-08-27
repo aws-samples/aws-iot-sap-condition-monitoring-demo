@@ -23,12 +23,12 @@ from botocore.exceptions import ClientError
 
 region = os.environ['AWS_REGION']
 sapHostName=os.environ['sapHostName']
-urlPrefix=os.environ['urlPrefix']
+urlPrefix=os.environ['sapUrlPrefix']
 sapPort=os.environ['sapPort']
-odpServiceName=os.environ['odpServiceName']
-odpEntitySetName=os.environ['odpEntitySetName']
+odpServiceName=os.environ['sapOdpServiceName']
+odpEntitySetName=os.environ['sapOdpEntitySetName']
 snsAlertEmailTopic = os.environ['snsAlertEmailTopic']
-secretName = os.environ['SECRET_NAME']
+secretName = os.environ['sapSecretName']
 
 sns_client = boto3.client('sns')
 
@@ -158,6 +158,8 @@ def lambda_handler(event, context):
                 TopicArn=snsAlertEmailTopic,
                 Message=message
             )
+        else:
+            sys.exit(1)
         
     except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError) as err:
         print("Connection to SAP System timed out: " + str(err.__class__.__name__))
@@ -165,6 +167,3 @@ def lambda_handler(event, context):
         sys.exit(1)
   
     print(response.status_code)
-
-    
-

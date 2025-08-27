@@ -16,15 +16,12 @@ def get_ddb(scope):
         id=f"CDKSAPBlogTable_{scope.table_name}",
         table_name=f"{scope.table_name}",
         key_schema=[
-            dyndb.CfnTable.KeySchemaProperty(attribute_name="Type",key_type="HASH"),
+            dyndb.CfnTable.KeySchemaProperty(attribute_name="DeviceID",key_type="HASH"),
         ],
         attribute_definitions=[
-            dyndb.CfnTable.AttributeDefinitionProperty(attribute_name='Type', attribute_type="S"),
+            dyndb.CfnTable.AttributeDefinitionProperty(attribute_name='DeviceID', attribute_type="S"),
         ],
-        provisioned_throughput=dyndb.CfnTable.ProvisionedThroughputProperty(
-            read_capacity_units=5,
-            write_capacity_units=5
-        )
+        billing_mode="PAY_PER_REQUEST"
     )
 
     initialize_ddb = cr.AwsCustomResource(
@@ -46,24 +43,14 @@ def get_ddb(scope):
             parameters={
                 'TableName': m_table.table_name,
                 'Item': {
-                    'range': {
-                        'M': {
-                            'temperature': {
-                                'M': {
-                                    'max': {'N': scope.temperature_max},
-                                    'min': {'N': scope.temperature_min}
-                                }
-                            }
-                        }
+                    "DeviceID": {
+                        "S": scope.thing_name
                     },
-                    "Type": {
-                        "S": scope.Type
+                    "SAPEquipmentNr": {
+                        "S": scope.sapEquipment
                     },
-                    "Equipment": {
-                        "S": scope.Equipment
-                    },
-                    "FunctLoc": {
-                        "S": scope.FunctLoc
+                    "SAPFunctLoc": {
+                        "S": scope.sapFunctLoc
                     }
                 }
             },
@@ -75,24 +62,14 @@ def get_ddb(scope):
             parameters={
                 'TableName': m_table.table_name,
                 'Item': {
-                    'range': {
-                        'M': {
-                            'temperature': {
-                                'M': {
-                                    'max': {'N': scope.temperature_max},
-                                    'min': {'N': scope.temperature_min}
-                                }
-                            }
-                        }
+                    "DeviceId": {
+                        "S": scope.thing_name
                     },
-                    "Type": {
-                        "S": scope.Type
+                    "SAPEquipmentNr": {
+                        "S": scope.sapEquipment
                     },
-                    "Equipment": {
-                        "S": scope.Equipment
-                    },
-                    "FunctLoc": {
-                        "S": scope.FunctLoc
+                    "SAPFunctLoc": {
+                        "S": scope.sapFunctLoc
                     }
                 }
             },

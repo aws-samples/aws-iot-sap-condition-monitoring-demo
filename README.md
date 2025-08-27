@@ -1,5 +1,8 @@
 # IoT For SAP CDK Solution
 
+> [!IMPORTANT]  
+> This solution has been updated to replace IoT Events, IoT Analytics
+
 This solution was written by Kenny Rajan, Patrick Leung, Scott Francis, Will Charlton & Ganesh Suryanarayan for the [Predictive Maintenance using SAP and AWS IoT to reduce operational cost](https://aws.amazon.com/blogs/awsforsap/predictive-maintenance-using-sap-and-aws-iot-to-reduce-operational-cost/) blog post.
 
 The purpose of this project is to deploy AWS `cdk` stacks that provide an end-to-end solution for creating SAP ticket alerts by monitoring device telemetry.
@@ -8,9 +11,10 @@ The purpose of this project is to deploy AWS `cdk` stacks that provide an end-to
 
 |||||
 |:-:|:-:|-|-|
-| IoT Thing | IoT Events | IAM Policies | IoT Rules |
-| IoT Analytics | IAM Roles | IoT Policy | IoT Certificate |
-| DynamoDB Tables | Lambdas | SNS | Secrets Manager |
+| IoT Thing | IoT Rules  | IoT Policy | IoT Certificate |
+| CloudWatch Metric | CloudWatch Alarm | EventBridge Rule | StepFunction |
+| IAM Policies | IAM Roles | SNS Topic | |
+| DynamoDB Table | Lambda Functions | Lambda Layer | Secrets Manager |
 
 
 *Other items include:*
@@ -18,6 +22,10 @@ The purpose of this project is to deploy AWS `cdk` stacks that provide an end-to
 |||||
 |:-:|:-:|-|-|
 | X509 Private Key | X509 Certificate Signing Request (CSR) |  |  |
+
+## Target Architecture
+
+<todo>
 
 **NOTE:**
 
@@ -56,20 +64,20 @@ Configure stack variables in `cdk.json`:
 | Variable                | Description                                      |
 |-------------------------|--------------------------------------------------|
 | `thing_name`            | The AWS IoT Thing name                           |
-| `Type`                  | A setting specific to the SAP customer           |
-| `Equipment`             | A setting specific to the SAP customer           |
-| `FunctLoc`              | A setting specific to the SAP customer           |
-| `temperature_min`       | Value used for determining Alarm condition       |
-| `temperature_max`       | Value used for determining Alarm condition       |
-| `sns_alert_email_topic` | The SNS topic name used for sending alarm emails |
+| `Type`                  | Thing description/tag                 |
+| `sapEquipment`             | A setting specific to the SAP env.          |
+| `sapFunctLoc`              | A setting specific to the SAP env.          |
+| `temperature_min`       | Low Value used for determining Alarm condition       |
+| `temperature_max`       | High Value used for determining Alarm condition       |
+| `dynamodb_table`        |     The Amazon DynamoDb table name                         |
 | `alarm_emails`          | A list of email addresses to send alarm emails   |
-| `odpEntitySetName`      | An Open Data Protocol setting                    |
-| `odpServiceName`        | An Open Data Protocol setting                    |
-| `sapHostName`           | The hostname or IP of the SAP server             |
-| `sapPort`               | The port or IP of the SAP server                 |
+| `sapOdpEntitySetName`      | Odata service entity set name                    |
+| `sapOdpServiceName`        | Odata service service name                  |
+| `sapHostName`           | The hostname or IP address of the SAP server             |
+| `sapPort`               | The port or IP address of the SAP server                 |
 | `sapUsername`           | The SAP server username                          |
 | `sapPassword`           | The SAP server password                          |
-| `urlPrefix`             | Either http:// or https://                       |
+| `sapUrlPrefix`             | Either http:// or https://                       |
 
 
 ## Deploy the IoT Stack
@@ -119,14 +127,6 @@ cdk deploy sap
 cdk deploy analytics -O=analytics-outputs.json
 ```
 
-## Update Detector Model to latest version
-
-```bash
-AWSACCOUNTID=$(aws sts get-caller-identity --query Account --output text)
-sed -i 's/AWSACCOUNTID/'$AWSACCOUNTID'/g' cdk_sap_blog/analytics/detector_model.json
-aws iotevents update-detector-model --cli-input-json file://cdk_sap_blog/analytics/detector_model.json
-```
-
 ## Test Alarm
 
 ### Test Configuration Variables
@@ -151,13 +151,7 @@ Once the Alarm is triggered, the end-to-end solution has completed.
 
 ## Cleanup
 
-The destroy operation (below) will fail unless we first remove (or save somewhere else) the objects in the S3 bucket we used to store the IoT Analytics data. Get the name of the bucket from the `analytics-outputs.json` file we created in the `deploy` operation.
-
-```bash
-aws s3 rm <analytics.AnalyticsBucketURI> --recursive
-```
-
-Then feel free to take down the 3 stacks.
+Take down the 3 stacks.
 
 ```bash
 cdk destroy --all
@@ -165,18 +159,3 @@ cdk destroy --all
 
 **NOTE 1:** Sometimes the `destroy` command (above) needs to be run twice.
 **NOTE 2:** Once everything is destroyed, make sure to delete the keys and certs in the `certs/` directory before re-deploying.
-
-# APPENDIX
-
-## Diagram
-
-Architecture diagram was designed with [PlantUML](https://plantuml.com/) and [AWS Icons for PlantUML](https://github.com/awslabs/aws-icons-for-plantuml). Once your system is configured, run the following command to generate the diagram:
-
-```bash
-java -jar plantuml.jar iot-for-sap-architecture.puml
-```
-
-**NOTE:** If you don't know the path to your `plantuml.jar` file, find it with `find / -name plantuml.jar 2>/dev/null`.
-
-The diagram will be saved as `iot-for-sap-architecture.png`.
-

@@ -105,7 +105,7 @@ def run(region, overtemp, undertemp):
                 qos=1
             )
             click.echo(f"published: {payload}")
-            time.sleep(1.0)
+            time.sleep(5.0)
         except KeyboardInterrupt:
             exit(0)
 

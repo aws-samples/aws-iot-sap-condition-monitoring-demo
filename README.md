@@ -1,11 +1,9 @@
 # IoT For SAP CDK Solution
 
 > [!IMPORTANT]  
-> This solution has been updated to replace IoT Events, IoT Analytics
+> This code originally has been written for the [Predictive Maintenance using SAP and AWS IoT to reduce operational cost](https://aws.amazon.com/blogs/awsforsap/predictive-maintenance-using-sap-and-aws-iot-to-reduce-operational-cost/) blog post. It has been updated to replace AWS IoT Events and AWS IoT Analytics, which are end of life.
 
-This solution was written by Kenny Rajan, Patrick Leung, Scott Francis, Will Charlton & Ganesh Suryanarayan for the [Predictive Maintenance using SAP and AWS IoT to reduce operational cost](https://aws.amazon.com/blogs/awsforsap/predictive-maintenance-using-sap-and-aws-iot-to-reduce-operational-cost/) blog post.
-
-The purpose of this project is to deploy AWS `cdk` stacks that provide an end-to-end solution for creating SAP ticket alerts by monitoring device telemetry.
+The purpose of this sample code is to show how to integrate AWS IoT solutions with SAP for predictive maintenance.
 
 *AWS Resources created in this project include:*
 
@@ -15,28 +13,11 @@ The purpose of this project is to deploy AWS `cdk` stacks that provide an end-to
 | CloudWatch Metric | CloudWatch Alarm | EventBridge Rule | StepFunction |
 | IAM Policies | IAM Roles | SNS Topic | |
 | DynamoDB Table | Lambda Functions | Lambda Layer | Secrets Manager |
-
-
-*Other items include:*
-
-|||||
-|:-:|:-:|-|-|
 | X509 Private Key | X509 Certificate Signing Request (CSR) |  |  |
 
-## Target Architecture
+### Target Architecture
 
 <todo>
-
-**NOTE:**
-
-- If you are using a device or other simulator with its own private key, place the CSR in the `certs/` directory with:
-  - The filename `<thing_name>.csr.pem`
-  - The X509 Certificate Subject's `CommonName` is the `<thing_name>`
-  - e.g. `certs/my_device_1.csr.pem` == `/CN=my_device_1` 
-
-- If you do not have a private key and CSR you want to use, they will be created for you on when the stack is deployed.
-
-Once the `iot` stack is deployed the device X509 Certificate will be located in `certs/<thing_name>.cert.pem`.
 
 ### Prerequisites
 
@@ -79,6 +60,16 @@ Configure stack variables in `cdk.json`:
 | `sapPassword`           | The SAP server password                          |
 | `sapUrlPrefix`             | Either http:// or https://                       |
 
+**NOTE:**
+
+- If you are using a device or other simulator with its own private key, place the CSR in the `certs/` directory with:
+  - The filename `<thing_name>.csr.pem`
+  - The X509 Certificate Subject's `CommonName` is the `<thing_name>`
+  - e.g. `certs/my_device_1.csr.pem` == `/CN=my_device_1` 
+
+- If you do not have a private key and CSR you want to use, they will be created for you on when the stack is deployed.
+
+Once the `iot` stack is deployed the device X509 Certificate will be located in `certs/<thing_name>.cert.pem`.
 
 ## Deploy the IoT Stack
 

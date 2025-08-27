@@ -1,4 +1,4 @@
-<mxfile host="drawio.corp.amazon.com" modified="2025-08-27T12:04:12.388Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36" etag="fT2wE12GWIaERUsq3GGQ" version="21.7.4" type="device">
+<mxfile host="drawio.corp.amazon.com" modified="2025-08-27T12:08:23.822Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36" etag="van92gHT3o5KFH5YE4f-" version="21.7.4" type="device">
   <diagram name="IoT-SAP-Architecture" id="architecture">
     <mxGraphModel dx="1857" dy="763" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -61,16 +61,18 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="conn6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="MdHSkgKFLFM1V3GT_CCv-8" target="cw-alarm-high" edge="1">
+        <mxCell id="conn6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="cw-alarm-high" edge="1">
           <mxGeometry relative="1" as="geometry">
+            <mxPoint x="730" y="144" as="sourcePoint" />
             <Array as="points">
               <mxPoint x="790" y="144" />
               <mxPoint x="790" y="110" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="conn7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="MdHSkgKFLFM1V3GT_CCv-8" target="cw-alarm-low" edge="1">
+        <mxCell id="conn7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="cw-alarm-low" edge="1">
           <mxGeometry relative="1" as="geometry">
+            <mxPoint x="730" y="144" as="sourcePoint" />
             <Array as="points">
               <mxPoint x="790" y="144" />
               <mxPoint x="790" y="190" />
@@ -97,17 +99,18 @@
         <mxCell id="conn15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sap-lambda" target="secrets" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="conn16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="MdHSkgKFLFM1V3GT_CCv-14" target="sap-system" edge="1">
+        <mxCell id="conn16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="sap-system" edge="1">
           <mxGeometry relative="1" as="geometry">
+            <mxPoint x="670" y="424" as="sourcePoint" />
             <Array as="points">
               <mxPoint x="800" y="424" />
               <mxPoint x="800" y="424" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="MdHSkgKFLFM1V3GT_CCv-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="MdHSkgKFLFM1V3GT_CCv-14" target="sns">
+        <mxCell id="MdHSkgKFLFM1V3GT_CCv-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" target="sns">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="720" y="420" as="sourcePoint" />
+            <mxPoint x="670" y="424" as="sourcePoint" />
             <mxPoint x="1109" y="290" as="targetPoint" />
             <Array as="points">
               <mxPoint x="730" y="424" />
@@ -170,6 +173,9 @@
         </mxCell>
         <mxCell id="MdHSkgKFLFM1V3GT_CCv-17" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/computer_and_terminals/Server_Desktop.svg;" vertex="1" parent="1">
           <mxGeometry x="979" y="393" width="42.599999999999994" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="MdHSkgKFLFM1V3GT_CCv-18" value="AWS Cloud" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#232F3E;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="30" y="20" width="1150" height="600" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

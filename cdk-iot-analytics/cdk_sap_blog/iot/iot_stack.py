@@ -9,7 +9,6 @@ Design
 import os
 import json
 from OpenSSL import crypto
-import iot.rules as rules
 from create_key_and_csr import (
 	generate_key_and_csr,
 	download_root_CA
@@ -231,29 +230,6 @@ class CdkSAPBlogIoTStack(Stack):
 				]
 			)
 		)
-
-		# create lambda loggers
-		# if self.node.try_get_context('debug_iot_stack'):
-		# 	all_mqtt_logger = lambda_.get_logger(self, "AllMQTT")
-		# 	error_logger = lambda_.get_logger(self, "Error")
-		# 	mqtt_role.add_to_policy(
-		# 		iam.PolicyStatement(
-		# 			effect=iam.Effect.ALLOW,
-		# 			resources=[
-		# 				all_mqtt_logger.function_arn,
-		# 				error_logger.function_arn,
-		# 			],
-		# 			actions=[
-		# 				'lambda:InvokeFunction',
-		# 			]
-		# 		)
-		# 	)
-		# 	all_mqtt_rule = rules.get_all_mqtt_rule(
-		# 		self,
-		# 		mqtt_role.role_arn,
-		# 		all_mqtt_logger.function_arn,
-		# 		error_logger.function_arn
-		# 	)
 
 		describe_endpoint = cr.AwsCustomResource(
 			scope=self,

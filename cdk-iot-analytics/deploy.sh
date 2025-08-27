@@ -18,12 +18,15 @@ else
     AWSACCOUNTID=$(aws sts get-caller-identity --query Account --output text)
     sudo yum install jq -y
     curl -H "Authorization: $AWS_CONTAINER_AUTHORIZATION_TOKEN" $AWS_CONTAINER_CREDENTIALS_FULL_URI 2>/dev/null > /tmp/credentials
-    export AWS_ACCESS_KEY_ID =`cat /tmp/credentials| jq -r .AccessKeyId`
-    export SECRET_KEY=`cat /tmp/credentials| jq -r .SecretAccessKey`
-    export AWS_SESSION_TOKEN =`cat /tmp/credentials| jq -r .Token`#
+    ACCESS_KEY_ID=`cat /tmp/credentials| jq -r .AccessKeyId`
+    SECR_KEY=`cat /tmp/credentials| jq -r .SecretAccessKey`
+    SESSION_TOKEN=`cat /tmp/credentials| jq -r .Token`
+    export AWS_ACCESS_KEY_ID=${ACCESS_KEY}
+    export AWS_SECRET_ACCESS_KEY=${SECRET_KEY}
+    export AWS_SESSION_TOKEN=${SESSION_TOKEN}
     export AWS_DEFAULT_REGION=${AWS_REGION}
     
-    cdk bootstrap aws://$AWSACCOUNTID/us-east-1
+    cdk bootstrap aws://$AWSACCOUNTID/$AWS_DEFAULT_REGION
     
     cdk deploy iot -O=iot-outputs.json --require-approval never
     

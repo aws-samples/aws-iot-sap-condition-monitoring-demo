@@ -24,7 +24,7 @@ The purpose of this sample code is to show how to integrate AWS IoT solutions wi
 | Tool            | Link                                                                           |
 |-----------------|--------------------------------------------------------------------------------|
 | AWS CDK v2         | https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html              |
-| `python3`       | https://www.python.org/downloads/                                              |
+| Python3       | https://www.python.org/downloads/                                              |
 
 ### Set Up Local Environment
 
@@ -93,6 +93,12 @@ cdk deploy iot -O=iot-outputs.json
 
 **IMPORTANT:** The CloudFormation outputs must be saved to `iot-outputs.json` in order for the device simulator to work (see below).
 
+## Deploy the Analytics Stack
+
+```bash
+cdk deploy analytics -O=analytics-outputs.json
+```
+
 ## Deploy the SAP Stack
 
 For technical and legal reasons, we do not package some dependencies in this repository, so they must be packaged before deploying the SAP stack. Do this with the command, below:
@@ -111,12 +117,6 @@ cdk deploy sap
 ```
 
 **IMPORTANT:** You should recieve a subscription notification to the emails in `cdk.json/alarm_emails`). _Make sure you Confirm the subscription_.
-
-## Deploy the Analytics Stack
-
-```bash
-cdk deploy analytics -O=analytics-outputs.json
-```
 
 ## Test Alarm
 
@@ -148,5 +148,6 @@ Take down the 3 stacks.
 cdk destroy --all
 ```
 
-**NOTE 1:** Sometimes the `destroy` command (above) needs to be run twice.
-**NOTE 2:** Once everything is destroyed, make sure to delete the keys and certs in the `certs/` directory before re-deploying.
+**NOTE 1:** Sometimes the `destroy` command (above) needs to be run twice.  
+
+**NOTE 2:** Once everything is destroyed, make sure to delete the keys and certs in the `certs/` directory before re-deploying.  

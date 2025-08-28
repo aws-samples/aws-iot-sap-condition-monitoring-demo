@@ -151,3 +151,13 @@ cdk destroy --all
 **NOTE 1:** Sometimes the `destroy` command (above) needs to be run twice.  
 
 **NOTE 2:** Once everything is destroyed, make sure to delete the keys and certs in the `certs/` directory before re-deploying.  
+
+## Cost Considerations
+
+Taking the StepFunction & SAP Service Notification Workflow aside (as it depends on actual anomalies), a cost indication can be derived as follows:
+
+- 10 devices, 1 message 10KB every 10 seconds each 
+- 730 h/month * 60 minutes/hour * 6 messages/minute = 262800 messages/month per device
+- 20 alarms, 20 custom metrics (high, low)
+
+Resulting in approx [4 USD per device per month](https://calculator.aws/#/estimate?id=32cba54a0a8900d75f2a8f691c453b2d4cf48a72)
